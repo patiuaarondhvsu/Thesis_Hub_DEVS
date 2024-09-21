@@ -416,7 +416,7 @@
   right: 1.5%;
   bottom: 0;
   background: rgba(255, 255, 255, 0); /* Transparent overlay */
-  pointer-events: auto; /* Block interactions */
+  pointer-events: none; /* Block interactions */
   z-index: 20; /* Ensure it's above the iframe */
   cursor: not-allowed; /* Visual cue */
   user-select: none; /* Attempt to prevent selection */
@@ -431,7 +431,7 @@
   right: 1.5%;
   bottom: 0;
   background: rgba(255, 255, 255, 0); /* Transparent overlay */
-  pointer-events: auto; /* Block interactions */
+  pointer-events: none; /* Block interactions */
   z-index: 20; /* Ensure it's above the iframe */
   cursor: not-allowed; /* Visual cue */
   user-select: none; /* Attempt to prevent selection */
