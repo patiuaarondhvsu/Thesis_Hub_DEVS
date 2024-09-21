@@ -64,7 +64,7 @@ const MainPage = () => {
 
   // logout handler
   const handleLogout = () => {
-    axios.get('http:localhost:5000/logout', { withCredentials: true })
+    axios.get('http://localhost:5000/logout', { withCredentials: true })
   .then(response => {
     // Redirect to login page or handle redirection in another way
     window.location.href = '/'; 
@@ -76,7 +76,7 @@ const MainPage = () => {
   };
 
   useEffect(() => {
-    axios.get('http:localhost:5000/api/theses')
+    axios.get('http://localhost:5000/api/theses')
         .then(response => {
             // Filter out deleted theses
             const activeTheses = response.data.filter(thesis => !thesis.deleted);
@@ -163,7 +163,7 @@ const MainPage = () => {
 
   const handleTitleClick = (result) => {
     const encodedPdf = encodeURIComponent(result.filename);
-    setPdfSrc(`http:localhost:5000/files/${encodedPdf}#toolbar=0`); // Set PDF source with toolbar=0
+    setPdfSrc(`http://localhost:5000/files/${encodedPdf}#toolbar=0`); // Set PDF source with toolbar=0
     setPdfVisible(true); // Show the PDF iframe
   };
 

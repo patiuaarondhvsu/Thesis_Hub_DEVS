@@ -132,7 +132,6 @@ border-radius: 0 0 ;
 
 .modal-overlay {
   
-<<<<<<< HEAD
   max-height: 200vh; /* Further reduce max height */
 }
 
@@ -140,56 +139,6 @@ border-radius: 0 0 ;
 
 
 }
-=======
-  .modal-close {
-    background: transparent;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-  }
-
-.chatbot-input,
-.chat-input {
-  display: flex;
-  align-items: center;
-  padding: 20px;
-  background-color: #000000;
-  border-radius: 0 0 20px 20px;
-
-}
-
-.chatbot-input
- {
-  display: flex;
-  align-items: center;
-  padding: 5px;
-  background-color: transparent;
-  border-radius: 0 0 ;
-}
-  
-
-@media (max-width: 768px) {
-  .chatbot-input {
-   display: flex;
-   align-items: center;
-  
-   background-color: transparent;
-   border-radius: 0 0 ;
- }
-
-  .modal-overlay {
-    
-    max-height: 200vh; /* Further reduce max height */
-  }
-
-  .modal-content {
-
-
-  }
->>>>>>> cfe840df7a8c5224802fdd4fc4736455f41a28f2
 }
 
 

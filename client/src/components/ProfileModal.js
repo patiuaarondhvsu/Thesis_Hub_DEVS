@@ -16,7 +16,7 @@ const ProfileModal = ({ isOpen, onClose }) => {
     if (isOpen) {
       const fetchUserData = async () => {
         try {
-          const response = await axios.get('http:localhost:5000/profile', { withCredentials: true });
+          const response = await axios.get('http://localhost:5000/profile', { withCredentials: true });
           const user = response.data;
           setName(user.name || '');
           // Optionally set profileIcon if you have URL or path to profile icon
@@ -50,7 +50,7 @@ const ProfileModal = ({ isOpen, onClose }) => {
       };
 
       // Send data to the server
-      await axios.post('http:localhost:5000/profile/edit', data, {
+      await axios.post('http://localhost:5000/profile/edit', data, {
         withCredentials: true, // Include cookies in the request if needed
       });
 

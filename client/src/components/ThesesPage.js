@@ -22,7 +22,7 @@ const ThesesPage = () => {
     const [resultsPerPage] = useState(5);
 
     useEffect(() => {
-        axios.get('http:localhost:5000/api/theses')
+        axios.get('http://localhost:5000/api/theses')
             .then(response => {
                 const activeTheses = response.data.filter(thesis => !thesis.deleted);
                 setTheses(activeTheses);
@@ -56,7 +56,7 @@ const ThesesPage = () => {
     };
 
     const confirmDelete = () => {
-        axios.delete(`http:localhost:5000/api/thesis/${thesisToDelete}`)
+        axios.delete(`http://localhost:5000/api/thesis/${thesisToDelete}`)
             .then(() => {
                 setTheses(theses.filter((thesis) => thesis._id !== thesisToDelete));
                 closeModal();
@@ -189,7 +189,7 @@ const ThesesPage = () => {
                                                 // Exclude filename if not needed
                                             };
 
-                                            await axios.put(`http:localhost:5000/api/thesis/${selectedThesis._id}`, updatedThesis);
+                                            await axios.put(`http://localhost:5000/api/thesis/${selectedThesis._id}`, updatedThesis);
                                             setTheses(theses.map(thesis =>
                                                 thesis._id === selectedThesis._id ? updatedThesis : thesis
                                             ));

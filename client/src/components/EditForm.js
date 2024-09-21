@@ -30,7 +30,7 @@ const EditForm = ({ onClose, existingData }) => {
     }
 
     try {
-      const response = await axios.put(`http:localhost:5000/api/edit/${existingData._id}`, formData, {
+      const response = await axios.put(`http://localhost:5000/api/edit/${existingData._id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
