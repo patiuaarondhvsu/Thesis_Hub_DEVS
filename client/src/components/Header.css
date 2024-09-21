@@ -1,0 +1,17 @@
+
+.header {
+  background-color: #ffffff;
+  padding: 20px 40px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 100px rgba(0, 0, 0, 0.1);
+
+}
+
+
+.header-logo {
+  height: 40px; /* Adjust size as needed */
+  margin-right: 10px;
+
+}
