@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 
-
 const Chatbot = () => {
   const [userMessage, setUserMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
@@ -31,6 +30,16 @@ const Chatbot = () => {
     { message: "Which studies are related to geography?", response: "COMPAWNION, HTEFINDER." },
   ];
 
+  const keywordsToResponses = {
+    "website": "which study is a website?",
+    "web app": "which study is a web application?",
+    "quantitative": "which study used quantitative methodology?",
+    "iterative": "Which study used an iterative Software Development Methodology?",
+    "animals": "Which studies are related to animals?",
+    "nature": "Which study is related about nature?",
+    "geography": "Which studies are related to geography?",
+  };
+
   const sendMessage = (message) => {
     if (message.trim() === '') {
       alert('Please type a message');
@@ -43,14 +52,24 @@ const Chatbot = () => {
   };
 
   const chatbotResponse = (userMessage) => {
-    let chatbotMessage = "please send different message";
+    let chatbotMessage = "I'm not sure about that. Please try asking in a different way or use one of the shortcuts below.";
 
-    if (userMessage.length > 5 || userMessage.toLowerCase() === "hi") {
-      const result = arrayOfPossibleMessages.find(val => val.message.includes(userMessage.toLowerCase()));
+    // Check for keywords
+    const lowerCaseMessage = userMessage.toLowerCase();
+    const keywordResponse = Object.keys(keywordsToResponses).find(keyword => lowerCaseMessage.includes(keyword));
+    
+    if (keywordResponse) {
+      const responseMessage = keywordsToResponses[keywordResponse];
+      const result = arrayOfPossibleMessages.find(val => val.message === responseMessage);
+      if (result) {
+        chatbotMessage = result.response;
+      }
+    } else if (userMessage.length > 5 || userMessage.toLowerCase() === "hi") {
+      const result = arrayOfPossibleMessages.find(val => val.message.includes(lowerCaseMessage));
       if (result) {
         chatbotMessage = result.response;
       } else {
-        chatbotMessage = "please send another message";
+        chatbotMessage = "I didn't catch that. Please rephrase your question or choose a shortcut.";
       }
     }
 
@@ -71,11 +90,10 @@ const Chatbot = () => {
         style={{ 
           maxHeight: '300px', 
           overflowY: 'auto', 
-          border: 'none', 
-          border: '1px solid #ccc',  // Add border
-          padding: '10px',          // Add padding
-          borderRadius: '5px',      // Optional: round corners
-          marginBottom: '10px'      // Optional: space below chat
+          border: '1px solid #ccc',
+          padding: '10px', 
+          borderRadius: '5px', 
+          marginBottom: '10px' 
         }} 
         ref={chatContainerRef}
       >
@@ -96,20 +114,17 @@ const Chatbot = () => {
         ))}
       </div>
 
-        <div className="chatbot-input">
-      <input
-        id="text-box"
-        type="text"
-        value={userMessage}
-        onChange={(e) => setUserMessage(e.target.value)}
-        onKeyPress={(e) => e.key === 'Enter' && sendMessage(userMessage)}
-        style={{ margin: '5px', padding: '10px',  flex: '1',
-          padding: '10px',
-          borderRadius: '30px',
-         }}
-     />
-      <button id="sendBtn" onClick={() => sendMessage(userMessage)} style={{ margin: '5px', padding: '20px' }}>Send</button>
-    </div>
+      <div className="chatbot-input">
+        <input
+          id="text-box"
+          type="text"
+          value={userMessage}
+          onChange={(e) => setUserMessage(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && sendMessage(userMessage)}
+          style={{ margin: '5px', padding: '10px', flex: '1', borderRadius: '30px' }}
+        />
+        <button id="sendBtn" onClick={() => sendMessage(userMessage)} style={{ margin: '5px', padding: '20px' }}>Send</button>
+      </div>
     </div>
   );
 };
