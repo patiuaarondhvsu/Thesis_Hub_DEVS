@@ -6,17 +6,18 @@ import Footer from './Footer';
 import Header from './Header';
 
 const RegisterForm = ({ onSwitchToLogin }) => {
-    const [name, setName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [dateOfBirth, setDateOfBirth] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');  // State for handling error messages
+    const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (password !== confirmPassword) {
             setErrorMessage('Passwords do not match!');
             return;
@@ -24,7 +25,8 @@ const RegisterForm = ({ onSwitchToLogin }) => {
 
         try {
             const response = await axios.post('http://localhost:5000/signup', {
-                name,
+                firstName,
+                lastName,
                 email,
                 password,
                 dateOfBirth
@@ -33,7 +35,6 @@ const RegisterForm = ({ onSwitchToLogin }) => {
             if (response.data.status === 'FAILED') {
                 setErrorMessage(response.data.message);
             } else {
-                // Redirect to login page or a verification page
                 navigate('/login');
             }
         } catch (error) {
@@ -50,15 +51,24 @@ const RegisterForm = ({ onSwitchToLogin }) => {
                 <div className="login-form">
                     <h2>Register</h2>
 
-                    {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Display error message */}
+                    {errorMessage && <p className="error-message">{errorMessage}</p>}
 
                     <form onSubmit={handleSubmit}>
                         <div className="input-group">
                             <input 
-                                type="name" 
-                                placeholder="Name" 
-                                value={name} 
-                                onChange={(e) => setName(e.target.value)} 
+                                type="firstname" 
+                                placeholder="First Name" 
+                                value={firstName} 
+                                onChange={(e) => setFirstName(e.target.value)} 
+                                required 
+                            />
+                        </div>
+                        <div className="input-group">
+                            <input 
+                                type="lastname" 
+                                placeholder="Last Name" 
+                                value={lastName} 
+                                onChange={(e) => setLastName(e.target.value)} 
                                 required 
                             />
                         </div>

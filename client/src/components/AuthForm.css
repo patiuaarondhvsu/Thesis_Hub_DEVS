@@ -2,8 +2,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 80px); /* Adjusts for header/footer height */
-    background-image: url('/public/ccsbg.png'); /* Placeholder for blurred background */
+    height: calc(100vh - 80px); /* Adjusts for header/footer height */ 
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/public/cssbg.jpg') no-repeat center center fixed;
+    background-size: cover;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -13,11 +14,13 @@
 
 .login-form {
     width: 300px;
+    margin: auto;
     background-color: white;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     text-align: center;
+    
     
 }
 
@@ -28,7 +31,7 @@
 
 .login-form h2 {
     margin: 0 0 10px;
-    font-size: 18px;
+    font-size: 24px;
     color: #333;
 }
 
@@ -38,7 +41,14 @@
     margin-bottom: 20px;
 }
 
-input[type="name"] {
+input[type="firstname"] {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+input[type="lastname"] {
     width: 90%;
     padding: 10px;
     margin: 10px 0;
@@ -81,7 +91,7 @@ input[type="email"] {
 .login-form button {
     width: 100%;
     padding: 10px;
-    background-color: #0079b8;
+    background-color: #007bbf;
     color: white;
     border: none;
     border-radius: 4px;
@@ -90,7 +100,7 @@ input[type="email"] {
 }
 
 .login-form button:hover {
-    background-color: #005a87;
+    background-color: #0056b3;
 }
 
 .login-form .switch-link {

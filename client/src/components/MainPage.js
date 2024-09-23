@@ -170,15 +170,15 @@ const MainPage = () => {
   return (
     <div className="App">
       <header className="header">
-        <img src="/thesishublogowhite.jpg" alt="Logo" className="logo" />
+        <img src="/thubbg.png" alt="Logo" className="logo" />
 
         <div className="libchat-button">
           <button className="library-button" onClick={() => setLibraryModalOpen(true)}></button>
-          <button className="chatbot-button" onClick={openChatbotModal}>Chatbot</button>
+          
         </div>
        
         <div className="profile-dropdown-button">
-    
+        <button className="chatbot-button" onClick={openChatbotModal}>Chatbot</button>
             <button onClick={toggleProfile}> ☰ </button>
           
           {isProfileOpen && (

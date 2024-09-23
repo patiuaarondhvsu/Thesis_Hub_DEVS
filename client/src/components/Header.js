@@ -4,7 +4,7 @@ import './Header.css';
 function Header() {
   return (
     <header className="header">
-      <img src="/thesishublogowhite.jpg" alt="ThesisHUB" className="header-logo" />
+      <img src="/thubbg.png" alt="ThesisHUB" className="header-logo" />
     </header>
   );
 }

@@ -18,18 +18,17 @@ const UsersPage = () => {
   };
 
   useEffect(() => {
-    // Fetch user data from the API
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/users/');
-        setUsers(response.data); // Update state with the fetched users
+        setUsers(response.data);
       } catch (err) {
-        setError(err.message); // Set error if there's a problem with the request
+        setError(err.message);
       }
     };
 
-    fetchData(); // Call the function to fetch data
-  }, []); // Empty dependency array means this effect runs once on mount
+    fetchData();
+  }, []);
 
   const filteredData = users.filter(user =>
     user.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -37,7 +36,6 @@ const UsersPage = () => {
 
   return (
     <div className="App">
-      {/* Header */}
       <Header />
 
       <div className="main-page-users">
@@ -57,31 +55,35 @@ const UsersPage = () => {
             />
           </div>
 
-          {error && <p className="error-message">{error}</p>} {/* Display error message if there's an error */}
+          {error && <p className="error-message">{error}</p>}
 
           <table className="data-table">
             <thead>
               <tr>
-                <th>Name</th>
+                <th>First Name</th>
+                <th>Last Name</th>
                 <th>Email</th>
                 <th>Date of Birth</th>
                 <th>Verified</th>
               </tr>
             </thead>
             <tbody>
-              {filteredData.map(user => (
-                <tr key={user._id}>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>{new Date(user.dateOfBirth).toLocaleDateString()}</td> {/* Format date */}
-                  <td>{user.verified ? 'Yes' : 'No'}</td>
-                </tr>
-              ))}
+              {filteredData.map(user => {
+                const [firstName, lastName] = user.name.split(' '); // Split the name
+                return (
+                  <tr key={user._id}>
+                    <td>{firstName}</td>
+                    <td>{lastName}</td>
+                    <td>{user.email}</td>
+                    <td>{new Date(user.dateOfBirth).toLocaleDateString()}</td>
+                    <td>{user.verified ? 'Yes' : 'No'}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
-        </div>   
+        </div>
       </div>
-      {/* Footer */}
       <Footer />
     </div>
   );
