@@ -42,7 +42,6 @@ const UsersPage = () => {
   return (
     <div className="App">
       <Header />
-
       <div className="main-page-users">
         <Sidebar isVisible={sidebarVisible} />
         <div className={`content ${sidebarVisible ? 'sidebar-open' : ''}`}>

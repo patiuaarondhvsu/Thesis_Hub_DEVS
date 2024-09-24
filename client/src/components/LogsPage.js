@@ -52,13 +52,13 @@ const Logs = () => {
       <Header />
 
       <div className="main-page-logs">
-        <h2>Users Logs</h2>
+      
         <Sidebar isVisible={sidebarVisible} />
         <div className={`logs-content ${sidebarVisible ? 'sidebar-open' : ''}`}>
           <button onClick={toggleSidebar} className="menu-button">
             ☰
           </button>
-
+          <h1>Users Logs</h1>
           <table className="log-table">
             <thead>
               <tr>

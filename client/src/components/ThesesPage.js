@@ -107,6 +107,7 @@ const ThesesPage = () => {
             <Header />
             <div className="container">
                 <div className="admin-page">
+         
                     <Sidebar isVisible={sidebarVisible} />
                     <div className={`content ${sidebarVisible ? 'sidebar-open' : ''}`}>
                         <button onClick={toggleSidebar} className="menu-button">

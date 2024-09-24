@@ -33,6 +33,7 @@
   background-color: #ddd;
 }
 
-.content.sidebar-open {
+.sidebar-open {
   margin-left: 250px; /* Adjust according to the width of your sidebar */
 }
+
