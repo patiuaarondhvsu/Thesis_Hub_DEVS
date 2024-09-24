@@ -30,9 +30,14 @@ const UsersPage = () => {
     fetchData();
   }, []);
 
+  // Filter users based on search query
   const filteredData = users.filter(user =>
-    user.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+    (user.firstName && user.firstName.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    (user.lastName && user.lastName.toLowerCase().includes(searchQuery.toLowerCase()))
+  );  
+
+  // Additional filter to only include verified users
+  const verifiedUsers = filteredData.filter(user => user.verified); // <-- Added this line
 
   return (
     <div className="App">
@@ -44,7 +49,7 @@ const UsersPage = () => {
           <button onClick={toggleSidebar} className="menu-button">
             ☰
           </button>
-          <h1>Users</h1>
+          <h1>User Accounts</h1>
           <div className="top-bar">
             <input
               type="text"
@@ -68,18 +73,15 @@ const UsersPage = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredData.map(user => {
-                const [firstName, lastName] = user.name.split(' '); // Split the name
-                return (
-                  <tr key={user._id}>
-                    <td>{firstName}</td>
-                    <td>{lastName}</td>
-                    <td>{user.email}</td>
-                    <td>{new Date(user.dateOfBirth).toLocaleDateString()}</td>
-                    <td>{user.verified ? 'Yes' : 'No'}</td>
-                  </tr>
-                );
-              })}
+              {verifiedUsers.map(user => ( // <-- Changed to verifiedUsers
+                <tr key={user._id}>
+                  <td>{user.firstName}</td>
+                  <td>{user.lastName}</td>
+                  <td>{user.email}</td>
+                  <td>{new Date(user.dateOfBirth).toLocaleDateString()}</td>
+                  <td>{user.verified ? 'Yes' : 'No'}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

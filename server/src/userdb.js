@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 connectDB();
 
 const UserSchema = new mongoose.Schema({
-    name: String,
+    firstName: String,
+    lastName: String,
     email: String,
     password: String,
     dateOfBirth: Date,

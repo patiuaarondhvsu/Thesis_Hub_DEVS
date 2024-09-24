@@ -112,7 +112,7 @@ const ThesesPage = () => {
                         <button onClick={toggleSidebar} className="menu-button">
                             ☰
                         </button>
-                        <h1>Theses - Admin Panel</h1>
+                        <h1>Theses Menu</h1>
                         <div className="top-bar">
                             <input
                                 type="text"
