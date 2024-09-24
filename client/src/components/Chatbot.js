@@ -1,44 +1,100 @@
 import React, { useState, useRef } from 'react';
+import './Chatbot.css';
 
+// data of thesis to configure if new thesis are added.
+
+// applications
+const thesisDataAPP = {
+  Websites: [
+    "Web-Based Equipment Maintenance Monitoring System for DHVSU Facilities",
+    "PALENGKIHAN",
+    "CODEQUEST",
+    "Monitoring System for DHVSU Facilities"
+  ],
+  WebApplications: [
+    "Taskgrove",
+    "Online Financial Assistance",
+    "HTEFinder",
+    "COMPAWNION"
+  ]
+};
+
+// methods
+const thesisDataMETHOD = {
+  Iterative: [
+    "MSWD Online Financial Assistance",
+    "ANTABE",
+    "HTEFINDER",
+    "COMPAWNION"
+  ],
+  Agile: [
+    "Taskgrove",
+    "Equipment maintenance monitoring",
+    "CODEQUEST",
+    "PALENGKIHAN"
+  ]
+};
+
+
+// APPROACH
+const thesisDataAPPROACH = {
+  Quantitative: [
+    "CODEQUEST",
+    "Taskgrove",
+    "HTEFinder"
+  ],
+  MixedMethod: [
+    "COMPAWNION",
+    "Web-Based Equipment Maintenance Monitoring System for DHVSU Facilities"
+  ]
+};
+
+// RELATED OR ABOUT
+const thesisDataRELATED = {
+  Animals: [
+    "COMPAWNION"
+  ],
+  Disability: [
+    "ANTABE"
+  ],
+  Nature: [
+    "Taskgrove"
+  ],
+  Geography: [
+    "COMPAWNION",
+    "HTEFINDER"
+  ]
+};
+
+
+// KEYWORDS for the chatbot to respond
+const keywords = {
+  APP: {
+    website: "website",
+    webApplication: "web application"
+  },
+  METHOD: {
+    iterative: "iterative",
+    agile: "agile"
+  },
+  APPROACH: {
+    quantitative: "quantitative",
+    mixedMethod: "mixed method"
+  },
+  RELATED: {
+    animals: "animals",
+    disability: "disability",
+    nature: "nature",
+    geography: "geography"
+  }
+};
+
+// chatbot configuration
 const Chatbot = () => {
   const [userMessage, setUserMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
+  const [loading, setLoading] = useState(false);
   const chatContainerRef = useRef(null);
-
-  const shortcuts = {
-    "Website": "which study is a website?",
-    "Web App": "which study is a web application?",
-    "Quantitative": "which study used quantitative methodology?",
-    "Iterative": "Which study used an iterative Software Development Methodology?",
-    "Animals": "Which studies are related to animals?",
-    "Nature": "Which study is related about nature?",
-    "Geography": "Which studies are related to geography?",
-  };
-
-  const arrayOfPossibleMessages = [
-    { message: "hi", response: "hello" },
-    { message: "which study is a website?", response: "Web-Based Equipment Maintenance Monitoring System for DHVSU Facilities, PALENGKIHAN, CODEQUEST, Monitoring System for DHVSU Facilities." },
-    { message: "which study is a web application?", response: "Taskgrove, Online Financial Assistance, HTEFinder, COMPAWNION." },
-    { message: "which study used quantitative methodology?", response: "CODEQUEST, Taskgrove, HTEFinder" },
-    { message: "which study used mix method?", response: "COMPAWNION, Web-Based Equipment Maintenance Monitoring System for DHVSU Facilities." },
-    { message: "Which study used an iterative Software Development Methodology?", response: "MSWD Online Financial Assistance, ANTABE, HTEFINDER, COMPAWNION." },
-    { message: "Which study uses an agile Software Development Methodology?", response: "Taskgrove, Equipment maintenance monitoring, CODEQUEST, PALENGKIHAN." },
-    { message: "agile method", response: "Taskgrove, Equipment maintenance monitoring, CODEQUEST, PALENGKIHAN." },
-    { message: "Which studies are related to animals?", response: "COMPAWNION." },
-    { message: "Which studies are about people with disability?", response: "ANTABE." },
-    { message: "Which study is related about nature?", response: "Taskgrove." },
-    { message: "Which studies are related to geography?", response: "COMPAWNION, HTEFINDER." },
-  ];
-
-  const keywordsToResponses = {
-    "website": "which study is a website?",
-    "web app": "which study is a web application?",
-    "quantitative": "which study used quantitative methodology?",
-    "iterative": "Which study used an iterative Software Development Methodology?",
-    "animals": "Which studies are related to animals?",
-    "nature": "Which study is related about nature?",
-    "geography": "Which studies are related to geography?",
-  };
 
   const sendMessage = (message) => {
     if (message.trim() === '') {
@@ -46,43 +102,100 @@ const Chatbot = () => {
       return;
     }
 
-    setChatHistory([...chatHistory, { sender: 'User', text: message }]);
+    setChatHistory([...chatHistory, { sender: 'You', text: message }]);
     chatbotResponse(message);
     setUserMessage('');
   };
 
+  // add a typing effect
+  const typingEffect = (message) => {
+    return new Promise((resolve) => {
+      let currentIndex = 0;
+      const typingInterval = setInterval(() => {
+        if (currentIndex < message.length) {
+          setChatHistory(prevHistory => [
+            ...prevHistory.slice(0, -1),
+            { sender: 'Chatbot', text: message.slice(0, currentIndex + 1) + (currentIndex === message.length - 1 ? '' : ' _') } // Adds cursor effect
+          ]);
+          currentIndex++;
+        } else {
+          clearInterval(typingInterval);
+          resolve();
+        }
+      }, 100); // Adjust typing speed here
+    });
+  };
+
   const chatbotResponse = (userMessage) => {
     let chatbotMessage = "I'm not sure about that. Please try asking in a different way or use one of the shortcuts below.";
-
-    // Check for keywords
     const lowerCaseMessage = userMessage.toLowerCase();
-    const keywordResponse = Object.keys(keywordsToResponses).find(keyword => lowerCaseMessage.includes(keyword));
-    
-    if (keywordResponse) {
-      const responseMessage = keywordsToResponses[keywordResponse];
-      const result = arrayOfPossibleMessages.find(val => val.message === responseMessage);
-      if (result) {
-        chatbotMessage = result.response;
-      }
-    } else if (userMessage.length > 5 || userMessage.toLowerCase() === "hi") {
-      const result = arrayOfPossibleMessages.find(val => val.message.includes(lowerCaseMessage));
-      if (result) {
-        chatbotMessage = result.response;
-      } else {
-        chatbotMessage = "I didn't catch that. Please rephrase your question or choose a shortcut.";
-      }
+
+    // check if there is negation or the word not
+    const isNegation = lowerCaseMessage.includes('not');
+    // clear the not in the response of the chatbot
+    const queryMessage = lowerCaseMessage.replace('not', '').trim();
+
+    setLoading(true); // Start loading
+
+    // Determine the category based on the user's message
+    if (queryMessage.includes(keywords.APP.website)) {
+        chatbotMessage = isNegation
+            ? "Here are the Web Applications: " + thesisDataAPP.WebApplications.join(', ')
+            : "Here are the Websites: " + thesisDataAPP.Websites.join(', ');
+    } else if (queryMessage.includes(keywords.APP.webApplication)) {
+        chatbotMessage = isNegation
+            ? "Here are the Websites: " + thesisDataAPP.Websites.join(', ')
+            : "Here are the Web Applications: " + thesisDataAPP.WebApplications.join(', ');
+    } else if (queryMessage.includes(keywords.APPROACH.quantitative)) {
+        chatbotMessage = isNegation
+            ? "Here are the Mixed Methods: " + thesisDataAPPROACH.MixedMethod.join(', ')
+            : "Here are the Quantitative methods: " + thesisDataAPPROACH.Quantitative.join(', ');
+    } else if (queryMessage.includes(keywords.APPROACH.mixedMethod)) {
+        chatbotMessage = isNegation
+            ? "Here are the Quantitative methods: " + thesisDataAPPROACH.Quantitative.join(', ')
+            : "Here are the Mixed Methods: " + thesisDataAPPROACH.MixedMethod.join(', ');
+    } else if (queryMessage.includes(keywords.METHOD.iterative)) {
+        chatbotMessage = isNegation
+            ? "Here are the Agile methods: " + thesisDataMETHOD.Agile.join(', ')
+            : "Here are the Iterative methods: " + thesisDataMETHOD.Iterative.join(', ');
+    } else if (queryMessage.includes(keywords.METHOD.agile)) {
+        chatbotMessage = isNegation
+            ? "Here are the Iterative methods: " + thesisDataMETHOD.Iterative.join(', ')
+            : "Here are the Agile methods: " + thesisDataMETHOD.Agile.join(', ');
+    } else if (queryMessage.includes(keywords.RELATED.animals)) {
+        chatbotMessage = isNegation
+            ? "Here are the Disability, Nature, and Geography topics: " + [...thesisDataRELATED.Disability, ...thesisDataRELATED.Nature, ...thesisDataRELATED.Geography].join(', ')
+            : "Here is the Animals topic: " + thesisDataRELATED.Animals.join(', ');
+    } else if (queryMessage.includes(keywords.RELATED.disability)) {
+        chatbotMessage = isNegation
+            ? "Here are the Animals, Nature, and Geography topics: " + [...thesisDataRELATED.Animals, ...thesisDataRELATED.Nature, ...thesisDataRELATED.Geography].join(', ')
+            : "Here is the Disability topic: " + thesisDataRELATED.Disability.join(', ');
+    } else if (queryMessage.includes(keywords.RELATED.nature)) {
+        chatbotMessage = isNegation
+            ? "Here are the Animals, Disability, and Geography topics: " + [...thesisDataRELATED.Animals, ...thesisDataRELATED.Disability, ...thesisDataRELATED.Geography].join(', ')
+            : "Here is the Nature topic: " + thesisDataRELATED.Nature.join(', ');
+    } else if (queryMessage.includes(keywords.RELATED.geography)) {
+        chatbotMessage = isNegation
+            ? "Here are the Animals, Disability, and Nature topics: " + [...thesisDataRELATED.Animals, ...thesisDataRELATED.Disability, ...thesisDataRELATED.Nature].join(', ')
+            : "Here is the Geography topic: " + thesisDataRELATED.Geography.join(', ');
     }
+    
 
+    // add a delay to make the chatbot look like a bot
     setTimeout(() => {
-      setChatHistory(prevHistory => [...prevHistory, { sender: 'Chatbot', text: chatbotMessage }]);
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }, 1000);
+        setLoading(false); // End loading
+        setChatHistory(prevHistory => [...prevHistory, { sender: 'Chatbot', text: chatbotMessage }]);
+        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }, 2000);
   };
 
-  const handleShortcutClick = (shortcut) => {
-    sendMessage(shortcut);
+  // clickable key words
+  const handleKeywordClick = (keyword) => {
+    setUserMessage(keyword);
+    sendMessage(keyword);
   };
 
+  // structure
   return (
     <div>
       <div 
@@ -98,20 +211,36 @@ const Chatbot = () => {
         ref={chatContainerRef}
       >
         {chatHistory.map((chat, index) => (
-          <div key={index} style={{ textAlign: chat.sender === 'User' ? 'right' : 'left', margin: '10px' }}>
+          <div key={index} style={{ textAlign: chat.sender === 'You' ? 'right' : 'left', margin: '10px' }}>
             <span>{chat.sender}: </span>
             <span>{chat.text}</span>
           </div>
         ))}
+        {loading && (
+          <div style={{ textAlign: 'left', margin: '10px' }}>
+            <span className="dot">.</span>
+            <span className="dot">.</span>
+            <span className="dot">.</span>
+          </div>
+        )}
       </div>
       
       <div>
-        {/* Render shortcut buttons */}
-        {Object.keys(shortcuts).map((key) => (
-          <button key={key} onClick={() => handleShortcutClick(key)} style={{ margin: '5px' }}>
-            {key}
-          </button>
-        ))}
+        {/* Render clickable keywords */}
+        <div>
+          <strong>Keywords:</strong>
+          {Object.values(keywords).flatMap(category => 
+            Object.values(category).map(keyword => (
+              <button 
+                key={keyword} 
+                onClick={() => handleKeywordClick(keyword)} 
+                style={{ margin: '5px' }}
+              >
+                {keyword}
+              </button>
+            ))
+          )}
+        </div>
       </div>
 
       <div className="chatbot-input">
