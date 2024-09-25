@@ -64,16 +64,17 @@ const MainPage = () => {
 
   // logout handler
   const handleLogout = () => {
-    axios.get('http://localhost:5000/logout', { withCredentials: true })
-  .then(response => {
-    // Redirect to login page or handle redirection in another way
-    window.location.href = '/'; 
-  })
-  .catch(error => {
-    console.error('Logout failed:', error);
-    // Optionally, show an error message to the user
-  });
-  };
+  axios.get('http://localhost:5000/logout', { withCredentials: true })
+    .then(response => {
+      // Redirect to login page or handle redirection in another way
+      window.location.href = '/'; 
+    })
+    .catch(error => {
+      console.error('Logout failed:', error);
+      setNotification('Logout failed. Please try again.'); // Show error message
+      setTimeout(() => setNotification(''), 3000);
+    });
+};
 
   useEffect(() => {
     axios.get('http://localhost:5000/api/theses')

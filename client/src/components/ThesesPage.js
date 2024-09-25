@@ -107,12 +107,13 @@ const ThesesPage = () => {
             <Header />
             <div className="container">
                 <div className="admin-page">
+         
                     <Sidebar isVisible={sidebarVisible} />
                     <div className={`content ${sidebarVisible ? 'sidebar-open' : ''}`}>
                         <button onClick={toggleSidebar} className="menu-button">
                             ☰
                         </button>
-                        <h1>Theses - Admin Panel</h1>
+                        <h1>Theses Menu</h1>
                         <div className="top-bar">
                             <input
                                 type="text"

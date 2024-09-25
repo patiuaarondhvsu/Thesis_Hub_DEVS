@@ -9,7 +9,7 @@
 
     background-color: transparent;
     width: 5%;
-    top: 75px;
+    top: 90px;
     left: 1px;
     font-size: 24px;
     color: black;
@@ -61,3 +61,9 @@ transition: transform 0.3s ease;
 .sidebar ul li a:hover {
   background-color: #d4d4d4;
 }
+
+.content.sidebar-open {
+  margin-left: 250px; /* Adjust according to the width of your sidebar */
+}
+
+

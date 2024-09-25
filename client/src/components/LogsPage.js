@@ -12,18 +12,20 @@ const Logs = () => {
   const logsPerPage = 10;
 
   useEffect(() => {
-    // Fetch logs from the backend when the component mounts
     const fetchLogs = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/logs', {
-          withCredentials: true // Add if your backend uses cookies or session-based auth
+          withCredentials: true,
         });
-        setLogs(response.data);
+
+        // to sort logs from latest
+        const sortedLogs = response.data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        setLogs(sortedLogs);
       } catch (error) {
         console.error('Error fetching logs:', error);
       }
     };
-
+  
     fetchLogs();
   }, []);
 
@@ -50,13 +52,13 @@ const Logs = () => {
       <Header />
 
       <div className="main-page-logs">
-        <h2>Record Logs</h2>
+      
         <Sidebar isVisible={sidebarVisible} />
         <div className={`logs-content ${sidebarVisible ? 'sidebar-open' : ''}`}>
           <button onClick={toggleSidebar} className="menu-button">
             ☰
           </button>
-
+          <h1>Users Logs</h1>
           <table className="log-table">
             <thead>
               <tr>
