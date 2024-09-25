@@ -394,9 +394,9 @@
 
 @media (max-width: 768px) {
   .pdf-iframe-container {
-    width: 95%; /* Further increase width on smaller devices */
-    max-height: 60vh; /* Further reduce max height */
-    
+    width: 100%; /* Further increase width on smaller devices */
+    height: 100%; /* Further reduce max height */
+
   }
 }
 

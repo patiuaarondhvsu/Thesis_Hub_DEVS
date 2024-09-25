@@ -21,6 +21,9 @@
     width: 100%;
     margin-bottom: 20px;
   }
+  .theses-table th{
+    background-color: #ddd;
+  }
   
   .theses-table th, .theses-table td {
     border: 1px solid #ddd;
