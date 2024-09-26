@@ -60,7 +60,7 @@ const MainPage = () => {
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
-  const [resultsPerPage] = useState(5);
+  const [resultsPerPage] = useState(10);
 
   // logout handler
   const handleLogout = () => {
