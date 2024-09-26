@@ -133,6 +133,7 @@ const ThesesPage = () => {
                                     <th>Title</th>
                                     <th>Category</th>
                                     <th>Year</th>
+                                    <th>Overview</th>
                                     <th>Author</th>
                                     <th>File</th>
                                     <th>Actions</th>
@@ -144,6 +145,7 @@ const ThesesPage = () => {
                                         <td>{thesis.titlename}</td>
                                         <td>{thesis.category}</td>
                                         <td>{thesis.year}</td>
+                                        <td>{thesis.overview}</td>
                                         <td>{thesis.author}</td>
                                         <td>{thesis.filename}</td>
                                         <td>
