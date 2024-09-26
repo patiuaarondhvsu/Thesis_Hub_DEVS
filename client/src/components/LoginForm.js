@@ -31,7 +31,7 @@ const LoginForm = ({ onSwitchToRegister }) => {
             localStorage.setItem('token', response.data.token); // Ensure your server is sending a token if needed
             login(response.data.user.role); // Set role in context
             if (response.data.user.role === 'admin') {
-                navigate('/logs');
+                navigate('/theses');
             } else {
                 navigate('/main');
             }
