@@ -9,8 +9,16 @@ const UploadForm = ({ onClose }) => {
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState('');
 
-  const handleSubmit = async (event) => {
+
+  //to accept only pdf
+    const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // Check if the file is a PDF
+    if (file && file.type !== 'application/pdf') {
+      setMessage('Please upload a valid PDF file.');
+      return;
+    }
 
     const formData = new FormData();
     formData.append('titlename', titlename);
@@ -73,6 +81,7 @@ const UploadForm = ({ onClose }) => {
             type="file"
             onChange={(e) => setFile(e.target.files[0])}
             className="form-input"
+            accept="application/pdf"
             required
           />
           <button type="submit" className="save-button">Upload</button>
