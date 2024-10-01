@@ -5,10 +5,13 @@ import { useAuth } from '../context/AuthContext'; // Import useAuth from context
 import './AuthForm.css';
 import Header from './Header';
 import Footer from './Footer';
+import 'font-awesome/css/font-awesome.min.css';
+
 
 const LoginForm = ({ onSwitchToRegister }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
     const { login } = useAuth(); // Use login function from context
@@ -64,14 +67,20 @@ const LoginForm = ({ onSwitchToRegister }) => {
                             />
                         </div>
                         <div className="input-group">
-                            <input
-                                type="password"
-                                placeholder="Password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
+                            <div className="password-container">
+                                <input
+                                    type={showPassword ? 'text' : 'password'}
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                        <span onClick={() => setShowPassword(!showPassword)} className="toggle-password">
+                            <i className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                        </span>
+                            </div>
                         </div>
+
                         <button type="submit">Login</button>
                     </form>
                     <p>

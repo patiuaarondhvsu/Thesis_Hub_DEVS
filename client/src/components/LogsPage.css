@@ -38,3 +38,27 @@
   margin-left: 250px; /* Adjust according to the width of your sidebar */
 }
 
+.password-container {
+  position: relative;
+  width: 100%; /* Ensure it takes the full width of the parent */
+}
+
+input {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+
+}
+
+.toggle-password {
+  position: absolute;
+  right: 15px; /* Adjust for spacing from the edge */
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #999; /* Change color as needed */
+  font-size: 16px; /* Adjust icon size if necessary */
+  z-index: 1; /* Ensures it sits above the input */
+}

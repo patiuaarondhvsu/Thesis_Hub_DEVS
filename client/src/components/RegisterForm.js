@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import './AuthForm.css';
 import Footer from './Footer'; 
 import Header from './Header';
+import 'font-awesome/css/font-awesome.min.css';
+
 
 const RegisterForm = ({ onSwitchToLogin }) => {
     const [firstName, setFirstName] = useState('');
@@ -11,6 +13,8 @@ const RegisterForm = ({ onSwitchToLogin }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [dateOfBirth, setDateOfBirth] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
@@ -56,7 +60,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
                     <form onSubmit={handleSubmit}>
                         <div className="input-group">
                             <input 
-                                type="firstname" 
+                                type="text" 
                                 placeholder="First Name" 
                                 value={firstName} 
                                 onChange={(e) => setFirstName(e.target.value)} 
@@ -65,7 +69,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
                         </div>
                         <div className="input-group">
                             <input 
-                                type="lastname" 
+                                type="text" 
                                 placeholder="Last Name" 
                                 value={lastName} 
                                 onChange={(e) => setLastName(e.target.value)} 
@@ -82,22 +86,32 @@ const RegisterForm = ({ onSwitchToLogin }) => {
                             />
                         </div>
                         <div className="input-group">
-                            <input 
-                                type="password" 
-                                placeholder="Password" 
-                                value={password} 
-                                onChange={(e) => setPassword(e.target.value)} 
-                                required 
-                            />
+                            <div className="password-container">
+                                <input
+                                    type={showPassword ? 'text' : 'password'}
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                        <span onClick={() => setShowPassword(!showPassword)} className="toggle-password">
+                            <i className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                        </span>
+                            </div>
                         </div>
                         <div className="input-group">
-                            <input 
-                                type="password" 
-                                placeholder="Confirm Password" 
-                                value={confirmPassword} 
-                                onChange={(e) => setConfirmPassword(e.target.value)} 
-                                required 
-                            />
+                            <div className="password-container">
+                                <input
+                                    type={showConfirmPassword ? 'text' : 'password'}
+                                    placeholder="Confirm Password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    required
+                                />
+                        <span onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="toggle-password">
+                            <i className={`fa ${showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                        </span>
+                            </div>
                         </div>
                         <div className="input-group">
                             <input 
