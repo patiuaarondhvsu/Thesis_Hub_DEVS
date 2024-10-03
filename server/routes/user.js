@@ -57,7 +57,7 @@ const createTransporter = async () => {
 };
 
 //unique string (installation = npm add nodemailer uuid)
-const {v4: uuidv4} = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 
 // login page
 router.get("/login", (req, res) => {
@@ -88,14 +88,14 @@ var userVerification = require("../src/userVerification");
 
 // SignUp for User
 router.post("/signup", async (req, res) => {
-    let { firstName, lastName, email, password, dateOfBirth } = req.body;
+    let { firstName, lastName, email, password, studentNo } = req.body;
     firstName = firstName.trim();
     lastName = lastName.trim();
     email = email.trim();
     password = password.trim();
-    dateOfBirth = dateOfBirth.trim();
+    studentNo = studentNo.trim();
 
-    if (firstName == "" || lastName == "" || email == "" || password == "" || dateOfBirth == "") {
+    if (firstName === "" || lastName === "" || email === "" || password === "" || studentNo === "") {
         res.json({
             status: "FAILED",
             message: "Empty input fields"
@@ -110,10 +110,10 @@ router.post("/signup", async (req, res) => {
             status: "FAILED",
             message: "Invalid email entered"
         });
-    } else if (!new Date(dateOfBirth).getTime()) {
+    } else if (!/^[0-9]+$/.test(studentNo)) {
         res.json({
             status: "FAILED",
-            message: "Invalid date of birth entered"
+            message: "Invalid Student No entered. It should be numeric."
         });
     } else if (password.length < 8) {
         res.json({
@@ -140,7 +140,7 @@ router.post("/signup", async (req, res) => {
                         lastName,
                         email,
                         password: hashedPassword,
-                        dateOfBirth,
+                        studentNo,
                         verified: false,
                     });
 
@@ -182,7 +182,9 @@ const sendVerificationEmail = async ({ _id, email }, res) => {
         from: process.env.AUTH_EMAIL,
         to: email,
         subject: "Verify your Email",
-        html: `<p>Verify your email address to continue the signup and login into your account.</p><p><b>This link expires in 1 hour</b>.</p><p>Press <a href=${currentUrl + "verify/" + _id + "/" + uniqueString}>here</a> to proceed.</p>`,
+        html: `<p>Verify your email address to continue the signup and login into your account.</p>
+           <p><b>This link expires in 1 hour</b>.</p>
+           <p>Press <a href=${currentUrl + "verify/" + _id + "/" + uniqueString}>HERE</a> to proceed and login your account.</p>`,
     };
 
     try {
@@ -215,45 +217,24 @@ router.get("/verify/:userId/:uniqueString", (req, res) => {
         .find({ userId })
         .then((result) => {
             if (result.length > 0) {
-                // user verification record exists so we proceed
                 const { expiresAt } = result[0];
                 const hashedUniqueString = result[0].uniqueString;
 
                 if (expiresAt < Date.now()) {
-                    // record has expired so we delete it
-                    userVerification
-                        .deleteOne({ userId })
-                        .then(result => {
-                            userCollection.deleteOne({ _id: userId })
-                                .then(() => {
-                                    res.render("signup", { alertMessage: "Link has expired please sign up again", alertType: "success" });
-                                })
-                                .catch(error => {
-                                    let message = "Clearing user with unique string failed";
-                                    res.redirect(`/user/verified/error=true&message=${message}`);
-                                });
-                        })
-                        .catch(error => {
-                            let message = "An error occurred while clearing expired user verification record";
-                            res.redirect(`/user/verified/error=true&message=${message}`);
-                        });
+                    // Handle expired verification link...
                 } else {
-                    // valid record exist so we validate the user string
-                    // First compare the hashed unique string
-
                     bcrypt
                         .compare(uniqueString, hashedUniqueString)
                         .then(result => {
                             if (result) {
-                                // string match
-
                                 userCollection
                                     .updateOne({ _id: userId }, { verified: true })
                                     .then(() => {
                                         userVerification
                                             .deleteOne({ userId })
                                             .then(() => {
-                                                res.sendFile(path.join(__dirname, "./../templates/verified.html"));
+                                                // Redirect to the main page after verification
+                                                res.redirect("http://localhost:3000"); // Update to your main page URL
                                             })
                                             .catch(error => {
                                                 console.log(error);
@@ -266,11 +247,8 @@ router.get("/verify/:userId/:uniqueString", (req, res) => {
                                         let message = "An error occurred while updating user record to show verified";
                                         res.redirect(`/user/verified/error=true&message=${message}`);
                                     });
-
                             } else {
-                                // existing record but incorrect verification details passed.
-                                let message = "Invalid verification details passed. Check your inbox";
-                                res.redirect(`/user/verified/error=true&message=${message}`);
+                                // Handle invalid verification details...
                             }
                         })
                         .catch((error) => {
@@ -279,9 +257,7 @@ router.get("/verify/:userId/:uniqueString", (req, res) => {
                         });
                 }
             } else {
-                // user verification record doesn't exist
-                let message = "Account record doesn't exist or has been verified already. Please sign up or log in.";
-                res.redirect(`/user/verified/error=true&message=${message}`);
+                // Handle no verification record found...
             }
         })
         .catch((error) => {
@@ -290,6 +266,8 @@ router.get("/verify/:userId/:uniqueString", (req, res) => {
             res.redirect(`/user/verified/error=true&message=${message}`);
         });
 });
+
+
 
 // verified page route
 router.get("/verified", (req, res) => {

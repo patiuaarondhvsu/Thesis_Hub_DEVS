@@ -6,7 +6,6 @@ import Footer from './Footer';
 import Header from './Header';
 import 'font-awesome/css/font-awesome.min.css';
 
-
 const RegisterForm = ({ onSwitchToLogin }) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -15,8 +14,9 @@ const RegisterForm = ({ onSwitchToLogin }) => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [dateOfBirth, setDateOfBirth] = useState('');
+    const [studentNo, setStudentNo] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState(''); // New state for success message
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -24,6 +24,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
 
         if (password !== confirmPassword) {
             setErrorMessage('Passwords do not match!');
+            setSuccessMessage(''); // Clear success message
             return;
         }
 
@@ -33,16 +34,20 @@ const RegisterForm = ({ onSwitchToLogin }) => {
                 lastName,
                 email,
                 password,
-                dateOfBirth
+                studentNo
             });
 
             if (response.data.status === 'FAILED') {
                 setErrorMessage(response.data.message);
+                setSuccessMessage(''); // Clear success message
             } else {
-                navigate('/login');
+                setSuccessMessage('Registration successful! Please verify your email.'); // Set success message
+                setErrorMessage(''); // Clear error message
+                setTimeout(() => navigate('/login'), 3000); // Redirect after 3 seconds
             }
         } catch (error) {
             setErrorMessage('An error occurred during registration. Please try again.');
+            setSuccessMessage(''); // Clear success message
             console.error('Registration failed', error);
         }
     };
@@ -56,6 +61,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
                     <h2>Register</h2>
 
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
+                    {successMessage && <p className="success-message">{successMessage}</p>} {/* Render success message */}
 
                     <form onSubmit={handleSubmit}>
                         <div className="input-group">
@@ -94,9 +100,9 @@ const RegisterForm = ({ onSwitchToLogin }) => {
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
                                 />
-                        <span onClick={() => setShowPassword(!showPassword)} className="toggle-password">
-                            <i className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
-                        </span>
+                                <span onClick={() => setShowPassword(!showPassword)} className="toggle-password">
+                                    <i className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                </span>
                             </div>
                         </div>
                         <div className="input-group">
@@ -108,17 +114,17 @@ const RegisterForm = ({ onSwitchToLogin }) => {
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     required
                                 />
-                        <span onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="toggle-password">
-                            <i className={`fa ${showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
-                        </span>
+                                <span onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="toggle-password">
+                                    <i className={`fa ${showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                </span>
                             </div>
                         </div>
                         <div className="input-group">
                             <input 
-                                type="date" 
-                                placeholder="Date of Birth" 
-                                value={dateOfBirth} 
-                                onChange={(e) => setDateOfBirth(e.target.value)} 
+                                type="text" 
+                                placeholder="Student No" 
+                                value={studentNo} 
+                                onChange={(e) => setStudentNo(e.target.value)} 
                                 required 
                             />
                         </div>
