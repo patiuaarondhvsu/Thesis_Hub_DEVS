@@ -2,10 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Sidebar.css';
 
-const Sidebar = ({ isVisible }) => {
+const Sidebar = () => {
   return (
-    <div className={`sidebar ${isVisible ? '' : 'hidden'}`}>
-      <h2>Menu</h2>
+    <div className="sidebar">
       <ul>
         <li><Link to="/logs">Users Logs</Link></li>
         <li><Link to="/theses">Theses Menu</Link></li> 

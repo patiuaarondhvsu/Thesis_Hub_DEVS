@@ -5,7 +5,7 @@
   align-items: center;
   height: calc(100vh - 80px); /* Adjusts for header/footer height */
   overflow-y: auto;
-  background-image: linear-gradient(#cdf7ff, transparent);
+  background: linear-gradient(to bottom, #5AAEC9, #FFFFFF);
   }
   
   .search-bar-theses {
@@ -20,13 +20,16 @@
   .theses-table {
     width: 100%;
     margin-bottom: 20px;
+    background: linear-gradient(to bottom, #5AAEC9, #FFFFFF);
   }
-  .theses-table th{
-    background-color: #ddd;
-  }
+  .theses-table th{ 
+      width: 100%;
+      border-collapse: collapse;
+      overflow-y: auto;
+    }
   
   .theses-table th, .theses-table td {
-    border: 1px solid #ddd;
+    border: 1px solid  white;
     padding: 10px;
     width: 10px;
   }

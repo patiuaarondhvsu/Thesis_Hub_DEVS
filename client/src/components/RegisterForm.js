@@ -55,7 +55,6 @@ const RegisterForm = ({ onSwitchToLogin }) => {
     return (
         <div className="App">
             <Header />
-
             <div className="main-content">
                 <div className="login-form">
                     <h2>Register</h2>
@@ -128,7 +127,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
                                 required 
                             />
                         </div>
-                        <button type="submit">Register</button>
+                        <button type="submit">Submit</button>
                     </form>
                     <p>
                         Already have an account? 

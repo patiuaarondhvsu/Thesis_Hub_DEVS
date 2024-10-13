@@ -45,9 +45,6 @@ const UsersPage = () => {
       <div className="main-page-users">
         <Sidebar isVisible={sidebarVisible} />
         <div className={`content ${sidebarVisible ? 'sidebar-open' : ''}`}>
-          <button onClick={toggleSidebar} className="menu-button">
-            ☰
-          </button>
           <h1>User Accounts</h1>
           <div className="top-bar">
             <input

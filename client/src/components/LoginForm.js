@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; // Import useAuth from context
+import { useAuth } from '../context/AuthContext';
 import './AuthForm.css';
 import Header from './Header';
 import Footer from './Footer';
-import 'font-awesome/css/font-awesome.min.css';
-
 
 const LoginForm = ({ onSwitchToRegister }) => {
     const [email, setEmail] = useState('');
@@ -14,44 +12,50 @@ const LoginForm = ({ onSwitchToRegister }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
-    const { login } = useAuth(); // Use login function from context
+    const { login } = useAuth();
 
     const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log('Attempting to login with:', { email, password });
+        e.preventDefault();
+        console.log('Attempting to login with:', { email, password });
 
-    try {
-        const response = await axios.post(`http://localhost:5000/login`, {
-            email,
-            password
-        }, {
-            withCredentials: true
-        });
+        try {
+            const response = await axios.post(`http://localhost:5000/login`, {
+                email,
+                password
+            }, {
+                withCredentials: true
+            });
 
-        console.log('Login response:', response.data);
+            console.log('Login response:', response.data);
 
-        if (response.data.success) {
-            localStorage.setItem('token', response.data.token); // Ensure your server is sending a token if needed
-            login(response.data.user.role); // Set role in context
-            if (response.data.user.role === 'admin') {
-                navigate('/theses');
+            if (response.data.success) {
+                localStorage.setItem('token', response.data.token);
+                login(response.data.user.role);
+                if (response.data.user.role === 'admin') {
+                    navigate('/theses');
+                } else {
+                    navigate('/main');
+                }
             } else {
-                navigate('/main');
+                setErrorMessage(response.data.message || 'Login failed');
             }
-        } else {
-            setErrorMessage(response.data.message || 'Login failed');
+        } catch (error) {
+            console.error('Login error:', error);
+            setErrorMessage('An error occurred during login. Please try again.');
         }
-    } catch (error) {
-        console.error('Login error:', error);
-        setErrorMessage('An error occurred during login. Please try again.');
-    }
-};
-
+    };
 
     return (
         <div className="App">
             <Header />
             <main className="main-content">
+                {/* Left panel with welcome message */}
+                <div className="welcome-section">
+                    <h1>Welcome to Thesis Hub, Code Hearted Fox!</h1>
+                    <p>Explore, and discover academic research with ease. Thesis HUB connects students, educators, and researchers, making it simple to access and share valuable theses and dissertations across various disciplines.</p>
+                </div>
+                
+                {/* Right panel with login form */}
                 <div className="login-form">
                     <h2>Login</h2>
                     <p>Enter your account to continue with Thesis HUB</p>
@@ -75,9 +79,9 @@ const LoginForm = ({ onSwitchToRegister }) => {
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
                                 />
-                        <span onClick={() => setShowPassword(!showPassword)} className="toggle-password">
-                            <i className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
-                        </span>
+                                <span onClick={() => setShowPassword(!showPassword)} className="toggle-password">
+                                    <i className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                </span>
                             </div>
                         </div>
 
