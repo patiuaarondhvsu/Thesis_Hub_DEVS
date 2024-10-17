@@ -84,8 +84,7 @@ const ThesesPage = () => {
         (thesis) =>
             thesis.titlename.toLowerCase().includes(searchQuery.toLowerCase()) ||
             thesis.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            thesis.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            thesis.year.toString().includes(searchQuery)
+            thesis.author.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     const indexOfLastThesis = currentPage * resultsPerPage;
@@ -129,7 +128,6 @@ const ThesesPage = () => {
                                 <tr>
                                     <th>Title</th>
                                     <th>Category</th>
-                                    <th>Year</th>
                                     <th>Overview</th>
                                     <th>Author</th>
                                     <th>File</th>
@@ -141,7 +139,6 @@ const ThesesPage = () => {
                                     <tr key={thesis._id}>
                                         <td>{thesis.titlename}</td>
                                         <td>{thesis.category}</td>
-                                        <td>{thesis.year}</td>
                                         <td>{thesis.overview}</td>
                                         <td>{thesis.author}</td>
                                         <td>{thesis.filename}</td>
@@ -213,14 +210,6 @@ const ThesesPage = () => {
                                         value={selectedThesis.category}
                                         onChange={(e) => setSelectedThesis({ ...selectedThesis, category: e.target.value })}
                                         placeholder="Category"
-                                        required
-                                    />
-                                    <input
-                                        type="number"
-                                        name="year"
-                                        value={selectedThesis.year}
-                                        onChange={(e) => setSelectedThesis({ ...selectedThesis, year: e.target.value })}
-                                        placeholder="Year"
                                         required
                                     />
                                     <input
