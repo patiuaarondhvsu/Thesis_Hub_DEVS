@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 const ThesisSchema = new mongoose.Schema({
   titlename: String,
   category: String,
-  year: Number,
+  program: String,
+  overview: String,
   author: String,
   filename: String,
   fileBuffer: String,

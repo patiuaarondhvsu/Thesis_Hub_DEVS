@@ -4,14 +4,14 @@ import axios from 'axios';
 const UploadForm = ({ onClose }) => {
   const [titlename, settitlename] = useState('');
   const [category, setCategory] = useState('');
-  const [year, setYear] = useState('');
+  const [program, setProgram] = useState('');
   const [author, setAuthor] = useState('');
+  const [overview, setOverview] = useState(''); // Added overview state
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState('');
 
-
-  //to accept only pdf
-    const handleSubmit = async (event) => {
+  // To accept only PDF
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Check if the file is a PDF
@@ -23,8 +23,9 @@ const UploadForm = ({ onClose }) => {
     const formData = new FormData();
     formData.append('titlename', titlename);
     formData.append('category', category);
-    formData.append('year', year);
+    formData.append('program', program);
     formData.append('author', author);
+    formData.append('overview', overview); // Added overview field
     formData.append('thesisPDF', file);
 
     try {
@@ -34,9 +35,10 @@ const UploadForm = ({ onClose }) => {
         },
       });
       setMessage(response.data.message || 'File uploaded successfully!');
+      onClose(); // Close the modal after successful upload
     } catch (error) {
       console.error('Error uploading file:', error);
-      setMessage('Error uploading file');
+      setMessage(error.response?.data?.message || 'Error uploading file');
     }
   };
 
@@ -47,7 +49,7 @@ const UploadForm = ({ onClose }) => {
         <form onSubmit={handleSubmit}>
           <input
             type="text"
-            placeholder="title"
+            placeholder="Title"
             value={titlename}
             onChange={(e) => settitlename(e.target.value)}
             className="form-input"
@@ -62,10 +64,10 @@ const UploadForm = ({ onClose }) => {
             required
           />
           <input
-            type="number"
-            placeholder="Year"
-            value={year}
-            onChange={(e) => setYear(e.target.value)}
+            type="text"
+            placeholder="Program" // Program input
+            value={program}
+            onChange={(e) => setProgram(e.target.value)}
             className="form-input"
             required
           />
@@ -74,6 +76,13 @@ const UploadForm = ({ onClose }) => {
             placeholder="Author"
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
+            className="form-input"
+            required
+          />
+          <textarea
+            placeholder="Overview" // Added overview input
+            value={overview}
+            onChange={(e) => setOverview(e.target.value)}
             className="form-input"
             required
           />

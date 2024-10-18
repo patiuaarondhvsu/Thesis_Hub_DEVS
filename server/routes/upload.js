@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
     cb(null, path.join(__dirname, '../public/files')); // Specify the directory to save files
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    cb(null, file.originalname); // Keep original file name
   }
 });
 
@@ -20,18 +20,19 @@ const upload = multer({ storage: storage });
 // Handle form submission with file upload
 router.post('/api/upload', upload.single('thesisPDF'), async (req, res) => {
   try {
-    const { titlename, category, year, author } = req.body;
+    const { titlename, category, program, overview, author } = req.body; // Updated fields based on the UploadForm
 
     // Ensure all required fields are provided
-    if (!titlename || !category || !year || !req.file) {
-      return res.status(400).send('All fields are required.');
+    if (!titlename || !category || !program || !overview || !author || !req.file) {
+      return res.status(400).json({ message: 'All fields are required.' }); // Return JSON response
     }
 
     // Create a new Thesis document
     const newThesis = new ThesisCollection({
       titlename,
       category,
-      year,
+      program, // Added program field
+      overview, // Added overview field
       author,
       filename: req.file.originalname, // Use the original file name
       filePath: path.join('files', req.file.originalname) // Store the relative file path
@@ -51,11 +52,11 @@ router.post('/api/upload', upload.single('thesisPDF'), async (req, res) => {
     await newRCD.save();
 
     // Send a success response
-    res.render('adminhome', { message: 'File uploaded, thesis data saved, and RCD entry created successfully!' });
+    res.status(201).json({ message: 'File uploaded and thesis data saved successfully!', thesis: savedThesis }); // Send back the saved thesis
   } catch (err) {
     // Handle error
     console.error('Error handling upload:', err);
-    res.status(500).send('Error processing upload');
+    res.status(500).json({ message: 'Error processing upload' }); // Return JSON response
   }
 });
 

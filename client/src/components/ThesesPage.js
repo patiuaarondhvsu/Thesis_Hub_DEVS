@@ -5,6 +5,7 @@ import Sidebar from './Sidebar';
 import Header from './Header';
 import Footer from './Footer';
 import UploadForm from './UploadForm';
+import EditForm from './EditForm'; // Import your EditForm component
 
 const ThesesPage = () => {
     const [theses, setTheses] = useState([]);
@@ -106,7 +107,6 @@ const ThesesPage = () => {
             <Header />
             <div className="container">
                 <div className="admin-page">
-         
                     <Sidebar isVisible={sidebarVisible} />
                     <div className={`content ${sidebarVisible ? 'sidebar-open' : ''}`}>
                         <h1>Theses Menu</h1>
@@ -128,6 +128,7 @@ const ThesesPage = () => {
                                 <tr>
                                     <th>Title</th>
                                     <th>Category</th>
+                                    <th>Program</th> {/* Moved Program column here */}
                                     <th>Overview</th>
                                     <th>Author</th>
                                     <th>File</th>
@@ -139,6 +140,7 @@ const ThesesPage = () => {
                                     <tr key={thesis._id}>
                                         <td>{thesis.titlename}</td>
                                         <td>{thesis.category}</td>
+                                        <td>{thesis.program}</td> {/* Added Program field */}
                                         <td>{thesis.overview}</td>
                                         <td>{thesis.author}</td>
                                         <td>{thesis.filename}</td>
@@ -177,53 +179,16 @@ const ThesesPage = () => {
                         <div className="modal">
                             <div className="modal-content">
                                 <h2>Edit Thesis</h2>
-                                <form
-                                    onSubmit={async (e) => {
-                                        e.preventDefault();
-                                        try {
-                                            const updatedThesis = {
-                                                ...selectedThesis,
-                                                // Exclude filename if not needed
-                                            };
-
-                                            await axios.put(`http://localhost:5000/api/thesis/${selectedThesis._id}`, updatedThesis);
-                                            setTheses(theses.map(thesis =>
-                                                thesis._id === selectedThesis._id ? updatedThesis : thesis
-                                            ));
-                                            closeEditFormModal();
-                                        } catch (error) {
-                                            console.error('Error updating thesis:', error);
-                                        }
+                                <EditForm
+                                    thesis={selectedThesis}
+                                    onClose={closeEditFormModal}
+                                    onUpdate={(updatedThesis) => {
+                                        setTheses(theses.map(thesis =>
+                                            thesis._id === updatedThesis._id ? updatedThesis : thesis
+                                        ));
+                                        closeEditFormModal();
                                     }}
-                                >
-                                    <input
-                                        type="text"
-                                        name="titlename"
-                                        value={selectedThesis.titlename}
-                                        onChange={(e) => setSelectedThesis({ ...selectedThesis, titlename: e.target.value })}
-                                        placeholder="Title"
-                                        required
-                                    />
-                                    <input
-                                        type="text"
-                                        name="category"
-                                        value={selectedThesis.category}
-                                        onChange={(e) => setSelectedThesis({ ...selectedThesis, category: e.target.value })}
-                                        placeholder="Category"
-                                        required
-                                    />
-                                    <input
-                                        type="text"
-                                        name="author"
-                                        value={selectedThesis.author}
-                                        onChange={(e) => setSelectedThesis({ ...selectedThesis, author: e.target.value })}
-                                        placeholder="Author"
-                                        required
-                                    />
-                                    {/* Removed filename field */}
-                                    <button type="submit">Save Changes</button>
-                                    <button type="button" onClick={closeEditFormModal}>Cancel</button>
-                                </form>
+                                />
                             </div>
                         </div>
                     )}

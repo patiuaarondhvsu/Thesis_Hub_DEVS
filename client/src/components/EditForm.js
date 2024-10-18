@@ -1,96 +1,112 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
-const EditForm = ({ onClose, existingData }) => {
-  const [titlename, settitlename] = useState(existingData.titlename || '');
-  const [category, setCategory] = useState(existingData.category || '');
-  const [year, setYear] = useState(existingData.year || '');
-  const [author, setAuthor] = useState(existingData.author || '');
-  const [file, setFile] = useState(null);
-  const [message, setMessage] = useState('');
+const EditForm = ({ thesis, onClose, onUpdate }) => {
+    const [formData, setFormData] = useState({ ...thesis });
+    const [file, setFile] = useState(null); // State for the new file
 
-  useEffect(() => {
-    // Set the form fields with existing data when the component mounts or existingData changes
-    settitlename(existingData.titlename || '');
-    setCategory(existingData.category || '');
-    setYear(existingData.year || '');
-    setAuthor(existingData.author || '');
-  }, [existingData]);
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]); // Set the selected file
+    };
 
-    const formData = new FormData();
-    formData.append('titlename', titlename);
-    formData.append('category', category);
-    formData.append('year', year);
-    formData.append('author', author);
-    if (file) {
-      formData.append('thesisPDF', file);
-    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const updatedThesis = new FormData(); // Using FormData for file uploads
 
-    try {
-      const response = await axios.put(`http://localhost:5000/api/edit/${existingData._id}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      setMessage(response.data.message || 'File updated successfully!');
-    } catch (error) {
-        console.error('Error updating file:', error.response ? error.response.data : error.message);
-        setMessage('Error updating file');
-    }
-  };
+        // Append the existing thesis data to FormData
+        updatedThesis.append('titlename', formData.titlename);
+        updatedThesis.append('category', formData.category);
+        updatedThesis.append('program', formData.program);
+        updatedThesis.append('overview', formData.overview);
+        updatedThesis.append('author', formData.author);
 
-  return (
-    <div className="modal">
-      <div className="modal-content">
-        <h2>Edit Thesis</h2>
+        // Append the new file if it exists
+        if (file) {
+            updatedThesis.append('file', file);
+        }
+
+        try {
+            const response = await axios.put(`http://localhost:5000/api/thesis/${thesis._id}`, updatedThesis, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            onUpdate(response.data); // Pass the updated thesis back to ThesesPage
+            onClose(); // Close the modal
+        } catch (error) {
+            console.error('Error updating thesis:', error);
+        }
+    };
+
+    return (
         <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Title"
-            value={titlename}
-            onChange={(e) => settitlename(e.target.value)}
-            className="form-input"
-            required
-          />
-          <input
-            type="text"
-            placeholder="Category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="form-input"
-            required
-          />
-          <input
-            type="number"
-            placeholder="Year"
-            value={year}
-            onChange={(e) => setYear(e.target.value)}
-            className="form-input"
-            required
-          />
-          <input
-            type="text"
-            placeholder="Author"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-            className="form-input"
-            required
-          />
-          <input
-            type="file"
-            onChange={(e) => setFile(e.target.files[0])}
-            className="form-input"
-          />
-          <button type="submit" className="save-button">Update</button>
-          <button type="button" onClick={onClose} className="cancel-button">Cancel</button>
+            <div>
+                <label>Title</label>
+                <input
+                    type="text"
+                    name="titlename"
+                    value={formData.titlename}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div>
+                <label>Category</label>
+                <input
+                    type="text"
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div>
+                <label>Program</label>
+                <input
+                    type="text"
+                    name="program"
+                    value={formData.program}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div>
+                <label>Overview</label>
+                <input
+                    name="overview"
+                    value={formData.overview}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div>
+                <label>Author</label>
+                <input
+                    type="text"
+                    name="author"
+                    value={formData.author}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div>
+                <label>Upload New File</label>
+                <input
+                    type="file"
+                    onChange={handleFileChange}
+                />
+            </div>
+            <div className="modal-buttons">
+                <button type="submit" className="confirm-button">Save</button>
+                <button type="button" onClick={onClose} className="cancel-button">Cancel</button>
+            </div>
         </form>
-        {message && <p>{message}</p>}
-      </div>
-    </div>
-  );
+    );
 };
 
 export default EditForm;
