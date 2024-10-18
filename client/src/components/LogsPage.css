@@ -4,61 +4,75 @@
   align-items: center;
   flex-direction: column;
   padding: 1rem;
-  height: calc(100vh - 80px); /* Adjusts for header/footer height */
-  background-image: linear-gradient(#cdf7ff, transparent);
-
+  height: calc(100vh - 80px); /* Adjust for header/footer */
+  background: linear-gradient(to bottom, #5AAEC9, #FFFFFF);
 }
 
-
-
 .logs-content {
-  /* Styling for logs content */
-  background-color: none;
-  overflow-y: auto;
-  
+  width: 90%;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 50px;
+  color: #333;
+}
+
+.search-bar-logs {
+  width: 50%;
+  padding: 10px;
+  font-size: 16px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .log-table {
   width: 100%;
-
- 
+  margin-top: 20px;
+  border-collapse: collapse;
 }
 
 .log-table th, .log-table td {
   border: 1px solid #ddd;
-  padding: 8px;
-  
+  padding: 12px;
+  text-align: center;
 }
 
 .log-table th {
   background-color: #ddd;
 }
 
-.sidebar-open {
-  margin-left: 250px; /* Adjust according to the width of your sidebar */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
 }
 
-.password-container {
-  position: relative;
-  width: 100%; /* Ensure it takes the full width of the parent */
-}
-
-input {
-  width: 90%;
+.pagination button {
   padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-
+  margin: 0 5px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.toggle-password {
-  position: absolute;
-  right: 15px; /* Adjust for spacing from the edge */
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: #999; /* Change color as needed */
-  font-size: 16px; /* Adjust icon size if necessary */
-  z-index: 1; /* Ensures it sits above the input */
+.pagination button:disabled {
+  background-color: #ccc;
+}
+
+.pagination span {
+  font-size: 16px;
+  margin: 0 10px;
+}
+
+.sidebar-open {
+  margin-left: 250px; /* Adjust based on sidebar width */
 }

@@ -104,20 +104,22 @@ const ThesesPage = () => {
 
     return (
         <div className="App">
-            <Header />
-            <div className="container">
-                <div className="admin-page">
-                    <Sidebar isVisible={sidebarVisible} />
-                    <div className={`content ${sidebarVisible ? 'sidebar-open' : ''}`}>
-                        <h1>Theses Menu</h1>
-                        <div className="top-bar">
-                            <input
-                                type="text"
-                                placeholder="Search theses..."
-                                value={searchQuery}
-                                onChange={handleInputChange}
-                                className="search-bar-theses"
-                            />
+        <Header />
+        <div className="container">
+        <div className="admin-page">
+          <Sidebar isVisible={sidebarVisible} />
+          <div className={`logs-content ${sidebarVisible ? 'sidebar-open' : ''}`}>
+            <h1 className="greeting">Good day Aaron!</h1> {/* Greeting */}
+            <div className="table-container"> {/* Container box around the table */}
+              <div className="top-bar">
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  className="search-bar-users"
+                />
+              </div>
                             <button onClick={addThesis} className="upload-button">
                                 <span className="plus-icon">+</span> Upload
                             </button>

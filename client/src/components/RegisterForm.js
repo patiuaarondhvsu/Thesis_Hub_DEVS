@@ -16,7 +16,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [studentNo, setStudentNo] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [successMessage, setSuccessMessage] = useState(''); // New state for success message
+    const [successMessage, setSuccessMessage] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -24,7 +24,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
 
         if (password !== confirmPassword) {
             setErrorMessage('Passwords do not match!');
-            setSuccessMessage(''); // Clear success message
+            setSuccessMessage('');
             return;
         }
 
@@ -39,15 +39,15 @@ const RegisterForm = ({ onSwitchToLogin }) => {
 
             if (response.data.status === 'FAILED') {
                 setErrorMessage(response.data.message);
-                setSuccessMessage(''); // Clear success message
+                setSuccessMessage('');
             } else {
-                setSuccessMessage('Registration successful! Please verify your email.'); // Set success message
-                setErrorMessage(''); // Clear error message
-                setTimeout(() => navigate('/login'), 3000); // Redirect after 3 seconds
+                setSuccessMessage('Registration successful! Please verify your email.');
+                setErrorMessage('');
+                setTimeout(() => navigate('/login'), 3000);
             }
         } catch (error) {
             setErrorMessage('An error occurred during registration. Please try again.');
-            setSuccessMessage(''); // Clear success message
+            setSuccessMessage('');
             console.error('Registration failed', error);
         }
     };
@@ -55,12 +55,17 @@ const RegisterForm = ({ onSwitchToLogin }) => {
     return (
         <div className="App">
             <Header />
-            <div className="main-content">
+            <main className="main-content">
+                <div className="welcome-section">
+                    <h1>Welcome to Thesis Hub, Code Hearted Fox!</h1>
+                    <p>Explore, and discover academic research with ease. Thesis HUB connects students, educators, and researchers, making it simple to access and share valuable theses and dissertations across various disciplines.</p>
+                </div>
+
                 <div className="login-form">
                     <h2>Register</h2>
 
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
-                    {successMessage && <p className="success-message">{successMessage}</p>} {/* Render success message */}
+                    {successMessage && <p className="success-message">{successMessage}</p>}
 
                     <form onSubmit={handleSubmit}>
                         <div className="input-group">
@@ -134,8 +139,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
                         <span onClick={onSwitchToLogin} className="switch-link">Login</span>
                     </p>
                 </div>
-            </div>
-
+            </main>
             <Footer />
         </div>
     );

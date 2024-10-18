@@ -7,6 +7,19 @@
   overflow-y: auto;
   background: linear-gradient(to bottom, #5AAEC9, #FFFFFF);
   }
+  .logs-content {
+    width: 90%;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .greeting {
+    text-align: left;
+    margin-bottom: 20px;
+  }
   
   .search-bar-theses {
     width: 60%;   
@@ -19,8 +32,9 @@
 }
   .theses-table {
     width: 100%;
+    border-collapse: collapse;
     margin-bottom: 20px;
-    background: linear-gradient(to bottom, #5AAEC9, #FFFFFF);
+    background: #fff;
   }
   .theses-table th{ 
       width: 100%;
@@ -29,7 +43,7 @@
     }
   
   .theses-table th, .theses-table td {
-    border: 1px solid  white;
+    border: 1px solid  black;
     padding: 10px;
     width: 10px;
   }
@@ -118,28 +132,25 @@
     margin-bottom: 20px;
   }
   
-  .upload-button {
+ .upload-button {
     background-color: #5bc0de;
-    right: 0;
     color: white;
-    padding: 6px ;
+    padding: 6px 12px; /* Increased padding for better look */
     border: 1px solid #cccccc00;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    display: flex;
-    align-items: center;
-    width: 30%;
-  }
-  
-  .plus-icon {
+    display: inline-block; /* Ensures the button takes up only its content space */
+}
+
+.plus-icon {
     font-size: 20px;
     margin-right: 5px;
-  }
-  
-  .upload-button:hover {
-  
-  }
+}
+
+.upload-button:hover {
+    background-color: #46b8da; /* Slightly darker on hover */
+}
   
 
   

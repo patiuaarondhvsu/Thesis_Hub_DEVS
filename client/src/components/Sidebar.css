@@ -1,14 +1,15 @@
 .sidebar {
-  position: fixed;
+  position: fixed; /* Keeps the navbar fixed as you scroll */
+  width: 100%; /* Ensures the navbar stretches across the full width */
   display: flex; /* Use flexbox for horizontal layout */
   padding: 10px; /* Adjust padding for better layout */
-  background-color: none; /* Optional: Add a background color */
-  border-top: 1px solid black; /* Add a border at the top */
-  margin-top: 10px; /* Add space below the header */
+  margin-top: 20px; /* Space below the header */
+  top: 70px; /* Adjust top value if header height changes */
+  z-index: 1000; /* Keeps the navbar on top of other content */
 }
 
 .sidebar h2 {
-  font-size: 24px;
+  font-size: 50px;
   margin-right: 20px; /* Space between the title and links */
 }
 
@@ -31,6 +32,6 @@
 }
 
 .sidebar ul li a:hover {
-  background-color: #5AAEC9; /* Change background on hover */
+  background-color: #fff; /* Change background on hover */
   border-radius: 10%;
 }
